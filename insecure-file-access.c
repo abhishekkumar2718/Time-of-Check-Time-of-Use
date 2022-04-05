@@ -17,12 +17,11 @@
  *
  * However, the program is run as root and uses access() to verify whether the
  * current user has write permission to temporary-file. However, after the check,
- * there is a gap before the file is used - during which the attack deletes
+ * there is a gap before the file is used - during which the attacker deletes
  * temporary-file and creates a symlink to privileged-file. This incorrectly
  * updates the privileged-file instead of temporary-file.
  */
 int main() {
-  FILE *file;
   char file_name[] = "temporary-file";
 
   // Check whether the current user has write access to the file.
@@ -45,7 +44,7 @@ int main() {
      * During the gap between check and use, the attacker will create a
      * symlink from temporary-file to privileged-file.
      */
-    file = fopen(file_name, "w+");  // Symlink resolves to privileged-file
+    FILE *file = fopen(file_name, "w+");  // Symlink resolves to privileged-file
     fprintf(file, "Hello, World!\n"); // Updates privileged-file!
   } else
     printf("Unable to open file %s\n", file_name);
