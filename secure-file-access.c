@@ -33,8 +33,8 @@
  *   symbolic links.
  * - Compares the stat structures before and after opening the file,
  *   and verifies if they are same.
- * - Relies on file descriptor and inodes which are immutable instead of
- *   file names which can be changed.
+ * - Relies on file descriptor and inode numbers which are immutable instead of
+ *   file names which can point to different files.
  */
 FILE *safe_open_wplus(char *fname) {
   int fd;

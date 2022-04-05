@@ -15,6 +15,9 @@ check-read-permission:
 check-write-permission:
 	echo "Hello, World" >> privileged-file || true
 
+display-privileged-file:
+	sudo cat privileged-file
+
 build-secure-file-access:
 	gcc secure-file-access.c -o secure-file-access
 
