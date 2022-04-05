@@ -4,19 +4,15 @@ Time-of-Check Time-of-Use is a race condition in which the state of a
 resource (typically a file) is changed after the check, invalidating the
 check itself.
 
-TODO: Add a point about how attacker needs a window of attack
-
 ## Demonstration
 
-In my demonstration, I have two linux users - `abhishek` and `sachin`
-and two files - `temporary-file`, owned by abhishek and
-`privileged-file`, owned by sachin.
-
-Abhishek does not have read, write or execute permissions to the
-`privileged-file`.
+I have two linux users - `abhishek` and `sachin`
+and two files - `temporary-file`, owned by _abhishek_ and
+`privileged-file`, owned by _sachin_. _abhishek_ does not have read,
+write or execute permissions to the `privileged-file`.
 
 However, the program is run as root and uses
-`[access()](https://man7.org/linux/man-pages/man2/access.2.html)` to
+[`access()`](https://man7.org/linux/man-pages/man2/access.2.html) to
 verify whether the current user has write permission to
 `temporary-file`. However, after the check, there is a gap before the
 file is used - during which the attacker deletes `temporary-file` and
@@ -29,11 +25,12 @@ creates a symlink to `privileged-file`. This incorrectly updates the
 
 `safe_open_wplus()` works as follows:
 
-1. `[lstat()](https://man7.org/linux/man-pages/man2/lstat.2.html)` the
+1. [`lstat()`](https://man7.org/linux/man-pages/man2/lstat.2.html) the
    file before opening.
-2. `[open()](https://man7.org/linux/man-pages/man2/open.2.html) the
+2. [`open()`](https://man7.org/linux/man-pages/man2/open.2.html) the
    file, returning a file descriptor.
-3. `[fstat()]()` the file descriptor returned in second step.
+3. [`fstat()`](https://man7.org/linux/man-pages/man2/lstat.2.html) the
+   file descriptor returned in second step.
 4. Compare the file type and mode, inode numbmer and ID of device
    containing file between stat structures returned in first and third
    steps.
