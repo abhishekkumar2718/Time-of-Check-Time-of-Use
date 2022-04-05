@@ -1,4 +1,4 @@
-# Time-of-Check Time-of-Us e
+# Time-of-Check Time-of-Use
 
 Time-of-Check Time-of-Use is a race condition in which the state of a
 resource (typically a file) is changed after the check, invalidating the
@@ -23,6 +23,8 @@ file is used - during which the attacker deletes `temporary-file` and
 creates a symlink to `privileged-file`. This incorrectly updates the
 `privileged-file` instead of `temporary-file`.
 
+![Insecure File Access](/insecure-file-access.gif)
+
 ## Secure Implementation
 
 `safe_open_wplus()` works as follows:
@@ -45,6 +47,8 @@ creates a symlink to `privileged-file`. This incorrectly updates the
   verifies if they are same.
 - Relies on file descriptor and inode numbers which are immutable
   instead of file names, which can point to different files.
+
+![Secure File Access](/secure-file-access.gif)
 
 ## References
 
